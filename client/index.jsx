@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -17,17 +17,29 @@ require('./styles/main.scss');
 require('./images/p5js-square-logo.png');
 
 const initialState = window.__INITIAL_STATE__;
-
 const store = configureStore(initialState);
 
-const App = () => (
-  <>
-    <Router history={browserHistory}>
-      <SkipLink targetId="play-sketch" text="PlaySketch" />
-      <Routing />
-    </Router>
-  </>
-);
+const App = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/p5.js-svg@1.5.0';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <>
+      <Router history={browserHistory}>
+        <SkipLink targetId="play-sketch" text="PlaySketch" />
+        <Routing />
+      </Router>
+    </>
+  );
+};
 
 render(
   <Provider store={store}>
