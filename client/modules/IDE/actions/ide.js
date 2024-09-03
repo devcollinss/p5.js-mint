@@ -254,6 +254,7 @@ export function startSketch() {
     dispatch(startVisualSketch());
     dispatch(showRuntimeErrorWarning());
     const state = getState();
+    console.log(state);
     dispatchMessage({
       type: MessageTypes.SKETCH,
       payload: {
